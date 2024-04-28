@@ -29,7 +29,7 @@ following data definitions instead: \
 
 
 def get_chat_completion_prompt(query: str, formated_chat_history: list[dict]) -> str:
-    chat_completion_prompt = f'''Consider yourselk as a helpful data analyst. A user has asked a \
+    chat_completion_prompt = f'''Consider yourself as a helpful data analyst. A user has asked a \
 question: {query}, in the context of the following chat history: {formated_chat_history}, politely reply \
 that you don't have the answer for the question.'''
 

@@ -87,6 +87,7 @@ def serialize_data(obj) -> str:
 
 def ask_database(cnx: mysql.connector.MySQLConnection, query: str):
     """Function to query SQLite database with a provided SQL query."""
+    results = ""
     try:
         cursor = cnx.cursor(dictionary=True)
         cursor.execute(query)
