@@ -12,16 +12,16 @@ def get_sql_tool(database_schema_string: str, database_definitions: str) -> list
                             "type": "string",
                             "description": f"""MySQL query extracting info to answer the user's question. \
 MySQL should be written using this database schema: \
-{database_schema_string} \
+{database_schema_string}. \
 The query should be returned in plain text, not in JSON. \
 Don't assume any column names that are not in the database schema, use the \
-following data definitions instead: \
-{database_definitions}"""
+following data definitions instead: {database_definitions}.
+Use the CORE TABLEs only and join other tables with them if required.""",
                         }
                     },
                     "required": ["query"],
                 },
-            }
+            },
         }
     ]
 
@@ -38,18 +38,51 @@ that you don't have the answer for the question.'''
 
 def get_format_sql_response_messages(sql_response: str) -> list[dict]:
     formatted_sql_response_messages = [
-        {"role": "system", "content": "Consider yourself as a helpful data analyst. \
-You help user get information about the data and answer their question."},
-        {"role": "user", "content": f"""Convert the following MySQL data into natural language conversation, \
+        {
+            "role": "system",
+            "content": "Consider yourself as a helpful data analyst. \
+You help user get information about the data and answer their question.",
+        },
+        {
+            "role": "user",
+            "content": f"""Convert the following MySQL data into natural language conversation, \
 keep the response short and concise and never mention id of the MySQL data. \
-SQL data: {sql_response}"""}
+SQL data: {sql_response}""",
+        },
     ]
 
     return formatted_sql_response_messages
 
 
 def get_chat_completion_request_system_message() -> dict:
-    system_message = {"role": "system", "content": "You are a data analyst. You help user get information \
-about the database."}
+    system_message = {
+        "role": "system",
+        "content": "You are a data analyst. You help user get information about the database.",
+    }
 
     return system_message
+
+def get_chat_completion_request_system_instructions() -> dict:
+    SQL_SYSTEM_INSTRUCTION = """Your core table are `_staff` and `project`, make your SQLResult using these two tables.
+    Always make a join of these two tables while creating the SQL query.
+    If you want to get information from other tables join them with the `_staff` and `project` tables.
+    Make sure that the column exists in the table for which you are making the SQL query.
+
+    Following are the notations that are to be used:
+    BH = budgeted hours
+    AH = accumulated hours
+    RH = Remaining hours
+    OT = Over Time
+    LR = labour rate
+    PM = project manager
+
+    Following are the formulas to calculate values:
+    LR = (projects.BH / _staff.AH)*97
+    Bonus = (projects.BH - _staff.AH)*15
+    """
+    system_instruction = {
+        "role": "system",
+        "content": SQL_SYSTEM_INSTRUCTION,
+    }
+
+    return system_instruction

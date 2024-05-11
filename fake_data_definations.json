@@ -1,62 +1,332 @@
 {
   "tables": [
     {
-      "name": "fake_profiles",
-      "description": "This table stores detailed user profiles.",
+      "name": "_staff",
+      "description": "CORE TABLE: A table storing project hours, including regular and overtime, project details, dates, and additional information for efficient management.",
       "columns": [
         {
-          "name": "job",
-          "type": "text",
+          "name": "id",
+          "type": "int",
           "description": ""
         },
         {
-          "name": "company",
-          "type": "text",
+          "name": "staffId",
+          "type": "str",
           "description": ""
         },
         {
-          "name": "ssn",
-          "type": "text",
+          "name": "hours",
+          "type": "str",
+          "description": "the hours added for a project of a staff for specific date"
+        },
+        {
+          "name": "overTime",
+          "type": "str",
+          "description": "these are also hours but overtime hours."
+        },
+        {
+          "name": "AH",
+          "type": "str",
+          "description": "Accumulated hours = hours+ (overTime *1.5)"
+        },
+        {
+          "name": "projectId",
+          "type": "str",
           "description": ""
         },
         {
-          "name": "residence",
-          "type": "text",
+          "name": "mProjectType",
+          "type": "str",
+          "description": "duplicate value, same like projectType in the project table"
+        },
+        {
+          "name": "date",
+          "type": "str",
+          "description": " the date for which data is added. do calculations on it instead of created_at."
+        },
+        {
+          "name": "currentDay",
+          "type": "str",
+          "description": "only for front end"
+        },
+        {
+          "name": "clickedDay",
+          "type": "str",
           "description": ""
         },
         {
-          "name": "blood_group",
-          "type": "text",
+          "name": "yearWeek",
+          "type": "str",
           "description": ""
         },
         {
-          "name": "username",
-          "type": "text",
+          "name": "projectTitle",
+          "type": "str",
+          "description": "duplicate value"
+        },
+        {
+          "name": "currentYear",
+          "type": "str",
+          "description": ""
+        },
+        {
+          "name": "tr",
+          "type": "str",
+          "description": ""
+        },
+        {
+          "name": "payroll",
+          "type": "str",
+          "description": ""
+        },
+        {
+          "name": "difference",
+          "type": "str",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "type": "str",
+          "description": ""
+        },
+        {
+          "name": "deleted_at",
+          "type": "str",
+          "description": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "str",
+          "description": ""
+        },
+        {
+          "name": "created_at",
+          "type": "str",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "staffs",
+      "description": "A table storing member details, including names, emails, active status, and associated colors for management and organization purposes.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
           "description": ""
         },
         {
           "name": "name",
-          "type": "text",
+          "type": "str",
           "description": ""
         },
         {
-          "name": "sex",
-          "type": "text",
+          "name": "email",
+          "type": "str",
           "description": ""
         },
         {
-          "name": "address",
-          "type": "text",
+          "name": "status",
+          "type": "bool",
+          "description": "1 = active memeber, 0= passive member. Don't have much concern for calculations. It is only used to hide some temporary staff from some listings"
+        },
+        {
+          "name": "color",
+          "type": "str",
+          "description": "hexadecimal value"
+        },
+        {
+          "name": "deleted_at",
+          "type": "str",
           "description": ""
         },
         {
-          "name": "mail",
-          "type": "text",
+          "name": "updated_at",
+          "type": "str",
           "description": ""
         },
         {
-          "name": "birthdate",
-          "type": "datetime",
+          "name": "created_at",
+          "type": "str",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "project",
+      "description": "CORE TABLE: A table storing project details, including title, type, manager, status, dates, and financial information for efficient project management.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "description": ""
+        },
+        {
+          "name": "parentId",
+          "type": "int",
+          "description": "if project is re-opened as deficiency it will create a new entry in the table and this new project will have parenntId of its parent project. So this entry will not a 'project' it will be 'deficiency'"
+        },
+        {
+          "name": "projectTitle",
+          "type": "str",
+          "description": ""
+        },
+        {
+          "name": "projectType",
+          "type": "str",
+          "description": "It will has following types: 1.Project, 2. Deficiency 3. Meeting, 4. Shop, 5. Other. 'Project' is the main type here. 'Deficiency' is a kind of child project. The rest of 3 are also called as green entries because these entries has nothing to do with the income/revenue, these are added to keep track of hours only that staff spent how much time on these non revenue entries."
+        },
+        {
+          "name": "PM",
+          "type": "str",
+          "description": "project manager id, any of staff can be a project manager"
+        },
+        {
+          "name": "type",
+          "type": "str",
+          "description": "it will have id of the type, reference to types table"
+        },
+        {
+          "name": "BH",
+          "type": "str",
+          "description": "budgeted hours for the project"
+        },
+        {
+          "name": "desc",
+          "type": "str",
+          "description": " description"
+        },
+        {
+          "name": "completedWeek",
+          "type": "str",
+          "description": "the week in which project is completed, it will be null for open(active) project"
+        },
+        {
+          "name": "completed_at",
+          "type": "str",
+          "description": "date of completion of the project, it will be null for the open project"
+        },
+        {
+          "name": "status",
+          "type": "str",
+          "description": "Open/completed"
+        },
+        {
+          "name": "payStatus",
+          "type": "str",
+          "description": "There will be two statuses Unpaid/Paid. Currently working on it and  it will be removed from the project table and new table  will be created for it. For now, please ignore this field."
+        },
+        {
+          "name": "payComment",
+          "type": "str",
+          "description": ""
+        },
+        {
+          "name": "hasLR",
+          "type": "bool",
+          "description": "boolean value, if it its false/0 then we this project will not include in the calculations of the LR (labour Rate)"
+        },
+        {
+          "name": "price",
+          "type": "int",
+          "description": ""
+        },
+        {
+          "name": "cost",
+          "type": "int",
+          "description": "cost is the amount spent for the 'deficiency', for the project it will remain 0"
+        },
+        {
+          "name": "defi",
+          "type": "str",
+          "description": "id of the defi"
+        },
+        {
+          "name": "estimator",
+          "type": "str",
+          "description": "id of the staff who did the estimation for the project"
+        },
+        {
+          "name": "addition",
+          "type": "str",
+          "description": "If an active project receives additional requirements from the client, the 'price' of the project will not be changed. Instead, a JSON array will be added, containing the title of the addition and the price of each additional item."
+        },
+        {
+          "name": "comp",
+          "type": "str",
+          "description": "id of the complication"
+        },
+        {
+          "name": "deleted_at",
+          "type": "str",
+          "description": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "str",
+          "description": ""
+        },
+        {
+          "name": "created_at",
+          "type": "str",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "breakeven",
+      "description": "This table will be used to calculate the monthly cost.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "description": ""
+        },
+        {
+          "name": "title",
+          "type": "str",
+          "description": ""
+        },
+        {
+          "name": "cost",
+          "type": "int",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "complications",
+      "description": "This will be used in the deficiency project. There will be one reason/complication due to which project is reopened as deficiency.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "description": ""
+        },
+        {
+          "name": "title",
+          "type": "str",
+          "description": ""
+        },
+        {
+          "name": "email",
+          "type": "str",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "defis",
+      "description": "Same like complication, there will be one defi also if project is opened as deficiency.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "description": ""
+        },
+        {
+          "name": "title",
+          "type": "str",
           "description": ""
         }
       ]
